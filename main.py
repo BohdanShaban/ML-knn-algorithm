@@ -77,6 +77,17 @@ def main():
 	print ('Train set: ' + repr(len(trainingSet)))
 	print ('Test set: ' + repr(len(testSet)))
 
-	
+	# NEIGHBOURS CALCULATION, RESPONSE PREDICTION
+	predictions=[]
+	k = 3
+	for x in range(len(testSet)):
+		neighbors = getNeighbors(trainingSet, testSet[x], k)
+		result = getResponse(neighbors)
+		predictions.append(result)
+		print('> predicted=' + repr(result) + ', actual=' + repr(testSet[x][-1]))
+
+	# ACCURACY ESTIMATION
+	accuracy = getAccuracy(testSet, predictions)
+	print('Accuracy: ' + repr(accuracy) + '%')
 
 main()
