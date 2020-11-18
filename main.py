@@ -5,7 +5,6 @@ import operator
 
 
 # READ IRIS && TRAIN/TEST SPLIT		
-import math
 
 def loadDataset(filename, split, trainingSet=[] , testSet=[]):
 	with open(filename, 'r') as csvfile:
@@ -30,7 +29,6 @@ def euclideanDistance(instance1, instance2, length):
 
 
 # NEIGHBOURS CALCULATION -> used euclideanDistance()  	
-import operator 
 
 def getNeighbors(trainingSet, testInstance, k):
 	distances = []
@@ -46,7 +44,7 @@ def getNeighbors(trainingSet, testInstance, k):
 
 
 # RESPONSE PREDICTION -> based on getNeighbors() 
-import operator
+
 def getResponse(neighbors):
 	classVotes = {}
 	for x in range(len(neighbors)):
@@ -58,11 +56,16 @@ def getResponse(neighbors):
 	sortedVotes = sorted( classVotes.items(), key=operator.itemgetter(1), reverse=True)
 	return sortedVotes[0][0]
 
-# Test the getResponse function 
-			
-neighbors = [[1,1,1,'a'], [2,2,2,'a'], [3,3,3,'b']]
-response = getResponse(neighbors)
-print(response)
+
+# ACCURACY ESTIMATION
+
+def getAccuracy(testSet, predictions):
+	correct = 0
+	for x in range(len(testSet)):
+		if testSet[x][-1] is predictions[x]:
+			correct += 1
+	return (correct/float(len(testSet))) * 100.0
+
 
 
 def main():
@@ -74,5 +77,6 @@ def main():
 	print ('Train set: ' + repr(len(trainingSet)))
 	print ('Test set: ' + repr(len(testSet)))
 
+	
 
 main()
