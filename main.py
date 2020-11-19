@@ -7,8 +7,8 @@ import operator
 # READ IRIS && TRAIN/TEST SPLIT		
 
 def loadDataset(filename, split, trainingSet=[] , testSet=[]):
-	with open(filename, 'r') as csvfile:
-	    lines = csv.reader(csvfile)
+	with open(filename, 'r') as datafile:
+	    lines = csv.reader(datafile)
 	    dataset = list(lines)
 	    for x in range(len(dataset)-1):
 	        for y in range(4):
@@ -17,6 +17,7 @@ def loadDataset(filename, split, trainingSet=[] , testSet=[]):
 	            trainingSet.append(dataset[x])
 	        else:
 	            testSet.append(dataset[x])
+	#datafile.close()
 
 
 # DISTANCE CALCULATION -> Euclidian	
@@ -61,9 +62,15 @@ def getResponse(neighbors):
 
 def getAccuracy(testSet, predictions):
 	correct = 0
-	for x in range(len(testSet)):
-		if testSet[x][-1] is predictions[x]:
+	for x in range( len(testSet) ):
+
+		#print("testSet[x][-1]:{} | predictions[x]:{}" .format(testSet[x][-1] , predictions[x]) )
+
+		if testSet[x][-1] == predictions[x]:
 			correct += 1
+
+			#print("CORRECT !!!!!! CORRECT !!!!!! CORRECT !!!!!!"
+
 	return (correct/float(len(testSet))) * 100.0
 
 
@@ -72,19 +79,19 @@ def main():
 	# READ IRIS && TRAIN/TEST SPLIT	
 	trainingSet=[]
 	testSet=[]
-	split = 0.7
+	split = 0.67
 	loadDataset('iris.data', split, trainingSet, testSet)
 	print ('Train set: ' + repr(len(trainingSet)))
 	print ('Test set: ' + repr(len(testSet)))
 
-	# NEIGHBOURS CALCULATION, RESPONSE PREDICTION
+	# NEIGHBOURS CALCULATION && RESPONSE PREDICTION
 	predictions=[]
 	k = 3
 	for x in range(len(testSet)):
 		neighbors = getNeighbors(trainingSet, testSet[x], k)
-		result = getResponse(neighbors)
-		predictions.append(result)
-		print('> predicted=' + repr(result) + ', actual=' + repr(testSet[x][-1]))
+		predicted = getResponse(neighbors)
+		predictions.append(predicted)
+		print('> predicted=' + repr(predicted) + ', actual=' + repr(testSet[x][-1]))
 
 	# ACCURACY ESTIMATION
 	accuracy = getAccuracy(testSet, predictions)
