@@ -3,10 +3,11 @@ from knn_functions import getNeighbors, getResponse, getAccuracy
 
 
 def main():
+
 	# READ IRIS && TRAIN/TEST SPLIT	
 	trainingSet=[]
 	testSet=[]
-	split = 0.67
+	split = 0.7
 	loadDataset('iris.data', split, trainingSet, testSet)
 	print ('Train set: ' + repr(len(trainingSet)))
 	print ('Test set: ' + repr(len(testSet)))
